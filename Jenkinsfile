@@ -11,7 +11,7 @@ pipeline {
                     docker.withRegistry('https://us.gcr.io', 'gcr:omega-castle-328311'){
                        app.push("${env.BUILD_NUMBER}")
                     }
-                    sh 'kubectl set image deployment demo-app demo-app=us.gcr.io/omega-castle-328311/demo-app:${BUILD_NUMBER}'
+                    sh 'kubectl -n dev set image deployment demo-app demo-app=us.gcr.io/omega-castle-328311/demo-app:${BUILD_NUMBER}'
                 }
             }
         }
@@ -26,7 +26,7 @@ pipeline {
         }
         stage('Deploy: Prod') {
             steps {
-               sh 'kubectl set image -n prod deployment demo-app demo-app=us.gcr.io/omega-castle-328311/demo-app:${BUILD_NUMBER}'   
+               sh 'kubectl -n prod set image deployment demo-app demo-app=us.gcr.io/omega-castle-328311/demo-app:${BUILD_NUMBER}'   
             }
         }
     }
